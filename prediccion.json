@@ -1,0 +1,20 @@
+{
+  "drought_periods": 1,
+  "rainy_periods": 1,
+  "optimal_weather_periods": 1,
+  "periods_detail": [
+    {
+      "type": "drought",
+      "duration": 5
+    },
+    {
+      "type": "rainy",
+      "duration": 5,
+      "max_day": 1
+    },
+    {
+      "type": "optimal_weather",
+      "duration": 2
+    }
+  ]
+}
