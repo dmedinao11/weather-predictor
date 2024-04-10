@@ -75,30 +75,25 @@ func (service *Service) ProcessPrediction() error {
 	return service.repo.SaveAll(weatherItems)
 }
 
-func (service *Service) GetPredictionSummary() (entities.Prediction, []entities.PeriodDetail, error) {
-	allPeriodsDetail, err := service.repo.GetAllPeriodsDetail()
-	if err != nil {
-		return entities.Prediction{}, nil, err
-	}
-
+func (service *Service) GetPredictionSummary() (entities.Prediction, error) {
 	optimalStatusCount, err := service.repo.CountPeriodsByWeatherStatus(entities.Optimal)
 	if err != nil {
-		return entities.Prediction{}, nil, err
+		return entities.Prediction{}, err
 	}
 
 	rainyStatusCount, err := service.repo.CountPeriodsByWeatherStatus(entities.Rainy)
 	if err != nil {
-		return entities.Prediction{}, nil, err
+		return entities.Prediction{}, err
 	}
 
 	droughtStatusCount, err := service.repo.CountPeriodsByWeatherStatus(entities.Drought)
 	if err != nil {
-		return entities.Prediction{}, nil, err
+		return entities.Prediction{}, err
 	}
 
 	normalStatusCount, err := service.repo.CountPeriodsByWeatherStatus(entities.Normal)
 	if err != nil {
-		return entities.Prediction{}, nil, err
+		return entities.Prediction{}, err
 	}
 
 	prediction := entities.Prediction{
@@ -108,7 +103,11 @@ func (service *Service) GetPredictionSummary() (entities.Prediction, []entities.
 		NormalPeriods:         normalStatusCount,
 	}
 
-	return prediction, allPeriodsDetail, nil
+	return prediction, nil
+}
+
+func (service *Service) GetPredictionDetails() ([]entities.PeriodDetail, error) {
+	return service.repo.GetAllPeriodsDetail()
 }
 
 func (service *Service) GetPredictionForADay(day uint) (entities.WeatherItem, error) {

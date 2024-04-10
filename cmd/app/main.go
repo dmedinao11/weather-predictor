@@ -1,24 +1,26 @@
 package main
 
 import (
-	"fmt"
-	"github.com/dmedinao11/weather-predictor/internal/weather"
+	"github.com/dmedinao11/weather-predictor/api/routes"
 	"github.com/dmedinao11/weather-predictor/pkg/db"
+	"github.com/gin-gonic/gin"
+	"log"
 )
 
 func main() {
+	if err := run(); err != nil {
+		log.Fatalln(err)
+	}
+}
+
+func run() error {
 	database, err := db.GetConnection()
 	if err != nil {
-		fmt.Println(err.Error())
-		panic(err.Error())
+		return err
 	}
 
-	repository := weather.NewRepository(database)
-	service := weather.NewService(&repository)
-
-	err = service.ProcessPrediction()
-	if err != nil {
-		fmt.Println(err.Error())
-		panic(err.Error())
-	}
+	app := gin.Default()
+	router := routes.NewRouter(app, database)
+	router.MapRoutes()
+	return app.Run()
 }

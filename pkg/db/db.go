@@ -2,7 +2,9 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"github.com/go-sql-driver/mysql"
+	"os"
 )
 
 func GetConnection() (*sql.DB, error) {
@@ -10,7 +12,7 @@ func GetConnection() (*sql.DB, error) {
 		User:   "root",
 		Passwd: "root",
 		Net:    "tcp",
-		Addr:   "db_mysql:3306",
+		Addr:   fmt.Sprintf("%s:%s", os.Getenv("DB_HOST"), os.Getenv("DB_PORT")),
 		DBName: "weather_database",
 	}
 

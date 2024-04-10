@@ -28,6 +28,20 @@ type (
 		Id       int
 		Type     string
 		Duration int
-		MaxDay   int
+		MaxDay   *int
 	}
 )
+
+func (s Status) String() string {
+	switch s {
+	case Optimal:
+		return "optimal"
+	case Rainy:
+		return "rainy"
+	case Drought:
+		return "drought"
+	case Normal:
+		return "normal"
+	}
+	return ""
+}

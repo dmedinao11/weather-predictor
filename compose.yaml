@@ -3,15 +3,13 @@ services:
     container_name: "db_mysql"
     build:
       dockerfile: Database.Dockerfile
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: "weather_database"
     ports:
       - "3306:3306"
     healthcheck:
-      test: [ "CMD", "mysqladmin" ,"ping", "-h", "localhost" ]
-      timeout: 5s
-      retries: 10
+      test: "/usr/bin/mysql --user=root --password=root --execute \"SHOW DATABASES;\""
+      interval: 2s
+      timeout: 1s
+      retries: 20
   backend:
     container_name: "backend"
     depends_on:
@@ -21,3 +19,13 @@ services:
     build:
       dockerfile: Backend.Dockerfile
     entrypoint: "app"
+    healthcheck:
+      test: "curl -f http://localhost:8080/ping"
+      timeout: 5s
+      retries: 10
+    environment:
+      PORT: "8080"
+      DB_HOST: "db_mysql"
+      DB_PORT: "3306"
+    ports:
+      - "8080:8080"
