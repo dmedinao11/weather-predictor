@@ -8,30 +8,28 @@ import (
 const (
 	years       = 10
 	daysInAYear = 365
-
-	concurrentProcess = 10
 )
 
 var (
 	ferengi = planet{
-		speed:           -1,
+		speedInDegrees:  -1,
 		distanceFromSun: 500,
 	}
 
 	vulcano = planet{
-		speed:           5,
+		speedInDegrees:  5,
 		distanceFromSun: 1000,
 	}
 
 	betazoide = planet{
-		speed:           -3,
+		speedInDegrees:  -3,
 		distanceFromSun: 2000,
 	}
 )
 
 type (
 	planet struct {
-		speed           int
+		speedInDegrees  int
 		distanceFromSun int
 	}
 
@@ -194,7 +192,7 @@ func calculateTriangleArea(x1 float64, y1 float64, x2 float64, y2 float64, x3 fl
 }
 
 func calculatePosition(p planet, day int) (float64, float64) {
-	angleDegrees := p.speed * day
+	angleDegrees := p.speedInDegrees * day
 	angleRadians := float64(angleDegrees) * (math.Pi / float64(180))
 
 	x := float64(p.distanceFromSun) * math.Cos(angleRadians)

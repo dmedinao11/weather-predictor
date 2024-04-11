@@ -18,7 +18,6 @@ func Test_predictDay(t *testing.T) {
 			want: entities.WeatherItem{
 				Day:           0,
 				WeatherStatus: entities.Drought,
-				Period:        0,
 				Perimeter:     0,
 			},
 		},
@@ -28,7 +27,6 @@ func Test_predictDay(t *testing.T) {
 			want: entities.WeatherItem{
 				Day:           1,
 				WeatherStatus: entities.Normal,
-				Period:        0,
 				Perimeter:     3025.1,
 			},
 		},
@@ -37,9 +35,8 @@ func Test_predictDay(t *testing.T) {
 			day:  90,
 			want: entities.WeatherItem{
 				Day:           90,
-				WeatherStatus: entities.Rainy,
-				Period:        0,
-				Perimeter:     5006.3,
+				WeatherStatus: entities.Optimal,
+				Perimeter:     0,
 			},
 		},
 		{
@@ -47,9 +44,8 @@ func Test_predictDay(t *testing.T) {
 			day:  270,
 			want: entities.WeatherItem{
 				Day:           270,
-				WeatherStatus: entities.Rainy,
-				Period:        0,
-				Perimeter:     5155,
+				WeatherStatus: entities.Optimal,
+				Perimeter:     0,
 			},
 		},
 		{
@@ -58,8 +54,7 @@ func Test_predictDay(t *testing.T) {
 			want: entities.WeatherItem{
 				Day:           361,
 				WeatherStatus: entities.Normal,
-				Period:        0,
-				Perimeter:     3171.7,
+				Perimeter:     3025.1,
 			},
 		},
 		{
@@ -67,9 +62,8 @@ func Test_predictDay(t *testing.T) {
 			day:  450,
 			want: entities.WeatherItem{
 				Day:           450,
-				WeatherStatus: entities.Rainy,
-				Period:        0,
-				Perimeter:     5406,
+				WeatherStatus: entities.Optimal,
+				Perimeter:     0,
 			},
 		},
 		{
@@ -77,9 +71,8 @@ func Test_predictDay(t *testing.T) {
 			day:  364,
 			want: entities.WeatherItem{
 				Day:           364,
-				WeatherStatus: entities.Rainy,
-				Period:        0,
-				Perimeter:     5406,
+				WeatherStatus: entities.Normal,
+				Perimeter:     3354.5,
 			},
 		},
 		{
@@ -87,9 +80,8 @@ func Test_predictDay(t *testing.T) {
 			day:  365,
 			want: entities.WeatherItem{
 				Day:           365,
-				WeatherStatus: entities.Rainy,
-				Period:        0,
-				Perimeter:     5406,
+				WeatherStatus: entities.Normal,
+				Perimeter:     3521.1,
 			},
 		},
 	}

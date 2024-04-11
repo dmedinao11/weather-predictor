@@ -5,6 +5,8 @@ import (
 	"github.com/dmedinao11/weather-predictor/api/handler"
 	"github.com/dmedinao11/weather-predictor/internal/weather"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type (
@@ -22,6 +24,8 @@ func NewRouter(app *gin.Engine, db *sql.DB) *Router {
 func (r *Router) MapRoutes() {
 	pingHandler := handler.Ping{}
 	r.app.GET("/ping", pingHandler.Pong())
+
+	r.app.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	r.routerGroup = r.app.Group("api/v1")
 	r.buildWeatherRoutes()

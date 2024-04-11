@@ -1,6 +1,7 @@
 package handler
 
 import (
+	_ "github.com/dmedinao11/weather-predictor/docs"
 	"github.com/dmedinao11/weather-predictor/internal/apperrrors"
 	"github.com/dmedinao11/weather-predictor/internal/weather/entities"
 	"github.com/gin-gonic/gin"
@@ -52,6 +53,12 @@ func NewWeatherHandler(service Service) *Weather {
 	return &Weather{service: service}
 }
 
+// ProcessPrediction
+//
+//	@Summary	Calculate predictions and store them in database
+//	@Success	202	""
+//	@Failure	500	{object}	errorDto
+//	@Router		/weather/prediction [post]
 func (w Weather) ProcessPrediction() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		err := w.service.ProcessPrediction()
@@ -63,6 +70,16 @@ func (w Weather) ProcessPrediction() gin.HandlerFunc {
 	}
 }
 
+// GetPredictionSummary
+//
+//	@Summary	Return summary for predictions
+//
+//	@Param		detailed	query	boolean	false	"Determinate whether return details of periods"
+//	@Produce	json
+//
+//	@Success	200	{object}	predictionDTO
+//	@Failure	500	{object}	errorDto
+//	@Router		/weather/prediction [get]
 func (w Weather) GetPredictionSummary() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		summary, err := w.service.GetPredictionSummary()
@@ -85,6 +102,17 @@ func (w Weather) GetPredictionSummary() gin.HandlerFunc {
 	}
 }
 
+// GetPredictionForADay
+//
+//	@Summary	Return prediction for a day
+//
+//	@Param		day	path	int	true	"Day for prediction"
+//	@Produce	json
+//	@Success	200	{object}	weatherItemDTO
+//	@Failure	400	{object}	errorDto	"For non-positive numbers"
+//	@Failure	404	{object}	errorDto	"When day was not predict"
+//	@Failure	500	{object}	errorDto
+//	@Router		/weather/prediction/day/{day} [get]
 func (w Weather) GetPredictionForADay() gin.HandlerFunc {
 	return func(context *gin.Context) {
 		dayParam := context.Param(dayParamKey)

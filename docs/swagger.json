@@ -1,0 +1,170 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "API to consult weather predictions",
+        "title": "Weather predictor API 🌦️",
+        "contact": {},
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/api/v1",
+    "paths": {
+        "/weather/prediction": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Return summary for predictions",
+                "parameters": [
+                    {
+                        "type": "boolean",
+                        "description": "Determinate whether return details of periods",
+                        "name": "detailed",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.predictionDTO"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorDto"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Calculate predictions and store them in database",
+                "responses": {
+                    "202": {
+                        "description": ""
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorDto"
+                        }
+                    }
+                }
+            }
+        },
+        "/weather/prediction/day/{day}": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Return prediction for a day",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Day for prediction",
+                        "name": "day",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.weatherItemDTO"
+                        }
+                    },
+                    "400": {
+                        "description": "For non-positive numbers",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorDto"
+                        }
+                    },
+                    "404": {
+                        "description": "When day was not predict",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorDto"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.errorDto"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handler.errorDto": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.periodDetailDTO": {
+            "type": "object",
+            "properties": {
+                "duration": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "max_day": {
+                    "type": "integer"
+                },
+                "type": {
+                    "type": "string"
+                }
+            }
+        },
+        "handler.predictionDTO": {
+            "type": "object",
+            "properties": {
+                "drought_periods": {
+                    "type": "integer"
+                },
+                "normalPeriods": {
+                    "type": "integer"
+                },
+                "optimal_weather_periods": {
+                    "type": "integer"
+                },
+                "periods_detail": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/handler.periodDetailDTO"
+                    }
+                },
+                "rainy_periods": {
+                    "type": "integer"
+                }
+            }
+        },
+        "handler.weatherItemDTO": {
+            "type": "object",
+            "properties": {
+                "day": {
+                    "type": "integer"
+                },
+                "is_peak_day": {
+                    "type": "boolean"
+                },
+                "max_day": {
+                    "type": "integer"
+                },
+                "weather_status": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
