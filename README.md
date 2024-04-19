@@ -17,6 +17,7 @@ Dominan la predicción del clima mediante un complejo sistema informático que s
 
 * La unidad de tiempo que determina la velocidad angular es de un día terrestre
 * Un año está compuesto por 365 días terrestres
+* Un período se entiende como el conjunto de días seguidos en el que el clima se mantiene. Cuando el clima cambia, se cuenta como un período nuevo
 
 ## Arquitectura de la solución 🏗️
 ### Modelo de datos
